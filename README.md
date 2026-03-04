@@ -50,7 +50,7 @@ Create a `.env` file inside the `backend` folder:
     DB_USER=root
     DB_PASS=yourpassword
     DB_NAME=blog_db
-    PORT=5000
+    PORT=3000
 
 ------------------------------------------------------------------------
 
@@ -80,7 +80,7 @@ Create a `.env` file inside the `backend` folder:
     cd backend
     npm run dev
 
-Backend runs at: http://localhost:5000
+Backend runs at: http://localhost:3000
 
 ### Start Frontend
 
