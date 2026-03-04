@@ -1,0 +1,20 @@
+  @import "tailwindcss";
+
+  button, a{
+    @apply cursor-pointer;
+  }
+
+  th, td{
+    @apply border-b border-gray-300;
+    @apply px-4 py-2;
+    @apply text-left
+  }
+
+  h1{
+    @apply text-2xl
+  }
+
+  h2{
+    @apply text-lg
+  }
+

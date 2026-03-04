@@ -1,0 +1,32 @@
+.ql-container.ql-bubble {
+  background-color: #0f172b;
+  border: none;
+  font-family: 'Segoe UI', Tahoma, Verdana, sans-serif;
+  min-height: 400px;
+}
+
+.ql-editor {
+  color: white; 
+  font-size: 14px;
+  font-weight: 400;
+  min-height: 400px;
+}
+
+.ql-editor.ql-blank::before {
+  color: #f8fafc8c !important; /* slate-400 */
+  opacity: 1; /* placeholder */
+  font-size: large;
+  font-weight: 200;
+}
+
+.ql-tooltip {
+  background-color: #2a2a2a !important;
+  color: white !important;
+  border: 1px solid #444;
+}
+
+.ql-tooltip input {
+  background: #1e1e1e;
+  color: white;
+  border: none;
+}
