@@ -1,3 +1,4 @@
+const { where } = require('sequelize');
 const db = require('../models')
 
 exports.getArticles = async (req, res) => {
@@ -13,15 +14,34 @@ exports.getArticleById = async (req, res) => {
   try{
     const id = parseInt(req.params.id)
     
-    const article = await db.articles.findByPk(id)
+    //const article = await db.articles.findByPk(id)
+
+    //Memanggil Attribute tabel Lain
+    const article = await db.articles.findOne({
+      where: { id: req.params.id },
+      include: {
+        model: db.User,
+        attributes: ["name"]
+      }
+    })
 
     if(!article){
       return res.status(404).json({
         message: "Article tidak ditemukan!!"
       })
     }
-
-    res.status(200).json(article)
+    
+    const result ={
+      id: article.id,
+      title: article.title,
+      subtitle: article.subtitle,
+      content: article.content,
+      like: article.like,
+      date: article.date,
+      author: article.User.name
+    }
+    
+    res.status(200).json(result)
   }catch(error){
     res.status(500).json({
       message: "Kesalahan internal (Server)"
@@ -31,7 +51,7 @@ exports.getArticleById = async (req, res) => {
 
 exports.createNewArticle = async (req, res) => {
   try{
-    const { title, subtitle, content } = req.body;
+    const { title, subtitle, content, userId } = req.body;
 
     //Memastikan tidak ada konten yang dikirim kosong
     if (!title || !subtitle || !content){
@@ -42,7 +62,7 @@ exports.createNewArticle = async (req, res) => {
 
     //Generate id menggunakan random math
     const randomId = Math.floor(Math.random() * 1000);
-    const imageUrl = `https://picsum.photos/id/300/200?random=${randomId}`;
+    const imageUrl = `https://picsum.photos/300/200?random=${randomId}`;
 
 
     //insert menggunakan ORM Sequelize
@@ -50,7 +70,9 @@ exports.createNewArticle = async (req, res) => {
       title, 
       subtitle,
       content,
-      image: imageUrl
+      image: imageUrl,
+      userId,
+
     });
 
     res.status(200).json({

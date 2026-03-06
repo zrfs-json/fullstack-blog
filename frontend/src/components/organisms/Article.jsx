@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react'
-import { HandHeart, Edit } from 'lucide-react';
+import { Edit } from 'lucide-react';
 import { useParams, Link } from 'react-router-dom'
 import axios from 'axios'
 
@@ -15,23 +15,31 @@ function Article() {
           `http://localhost:3000/api/articles/${id}`
         )
         setArticle(response.data)
-        console.log(article)
+        //Dulu disini ada console.log(article), yang bikin dependency arry di UseEffect harus ada article. yang bikin data di ambil terus menerus, karena menganggap article selalu ada perubahan
       }catch(error){
         console.error(error)
       }
     }
     fetchArticle()
-  },[article, id])
+  },[id])
+
+  const formatDate = (date) => {
+  return new Date(date).toLocaleDateString("en-US", {
+    month: "short",
+    day: "numeric",
+    year: "numeric"
+  })
+}
 
   useEffect(()=> {
     topRef.current?.scrollIntoView();//autoScroll ke atas
   },[id])
 
-  if (!article) return <p>Tulisan tidak ditemukan</p>
+  if (!article) return <p className='flex justify-center items-center text-slate-50 text-2xl h-screen'>Article Tidak Ditemukan</p>
 
   return (
     <div ref={topRef} id='blog'>
-      <div className="flex flex-col mx-25 py-20 gap-10 px-25 h-screen">
+      <div className="flex flex-col mx-25 py-20 gap-10 px-25 min-h-screen">
         <div className='flex flex-col gap-2'>
           <div className="flex flex-col gap-6">
             <p className='text-3xl font-bold text-slate-50'>{article.title}</p>
@@ -39,11 +47,10 @@ function Article() {
           </div>
           
           <div className="flex gap-3 text-sm items-center font-medium text-slate-400">
-            <p>{article.date}</p>
+            <p>{formatDate(article.date)}</p>
             <p>•</p>
             <div className="flex gap-1 items-center">
-              <p>{article.like}</p>
-              <HandHeart className=" stroke-slate-400 size-5" />
+              <p>{article.author}</p>
             </div>
             <p>•</p>
             <Link to={`/editor/${article.id}`}>

@@ -12,6 +12,7 @@ module.exports = {
       <p>Quos impedit nemo reiciendis, veniam facere sunt, consectetur illum neque pariatur quo inventore recusandae minus distinctio beatae sequi dolorum sit odio similique nobis temporibus. Ratione officia vero aperiam debitis, quis officiis laborum, reiciendis consequatur, accusamus maiores eaque ipsa qui earum veritatis amet!</p>`,
       like:10,
       date:'2025-1-29',
+      userId:2,
       createdAt: new Date(),
       updatedAt: new Date()
     },
@@ -24,6 +25,7 @@ module.exports = {
       <p>Quos impedit nemo reiciendis, veniam facere sunt, consectetur illum neque pariatur quo inventore recusandae minus distinctio beatae sequi dolorum sit odio similique nobis temporibus. Ratione officia vero aperiam debitis, quis officiis laborum, reiciendis consequatur, accusamus maiores eaque ipsa qui earum veritatis amet!</p>`,
       like:14,
       date:'2025-5-29',
+      userId:1,
       createdAt: new Date(),
       updatedAt: new Date()
     },
@@ -36,6 +38,7 @@ module.exports = {
       <p>Quos impedit nemo reiciendis, veniam facere sunt, consectetur illum neque pariatur quo inventore recusandae minus distinctio beatae sequi dolorum sit odio similique nobis temporibus. Ratione officia vero aperiam debitis, quis officiis laborum, reiciendis consequatur, accusamus maiores eaque ipsa qui earum veritatis amet!</p>`,
       like:81,
       date:'2025-3-29',
+      userId:2,
       createdAt: new Date(),
       updatedAt: new Date()
     }

@@ -31,9 +31,9 @@ exports.getUserById = async (req, res) => {
 
 exports.updateUser = async  (req, res) => {
   const { id } = req.params
-  const { username, email, role } = req.body
+  const { name, email, biography } = req.body
 
-  if (!username || !email || !role ){
+  if (!name || !email || !biography ){
     return res.status(400).json({
       Message: "Wajib kamu isi itu!!!"
     })
@@ -48,8 +48,8 @@ exports.updateUser = async  (req, res) => {
       })
     }
 
-    user.username = username
-    user.role = role
+    user.name = name
+    user.biography = biography
     user.email = email
 
     await user.save()

@@ -3,7 +3,7 @@ const { User } = db
 
 exports.register = async (req, res) => {
   try{
-      const { username, role ,email, password, repassword } = req.body
+      const { name, biography ,email, password, repassword } = req.body
       console.log(req.body)
   
       if(!email || !password){
@@ -19,7 +19,7 @@ exports.register = async (req, res) => {
   
       try{
         const newAccount = await User.create({
-          email, password, role, username
+          email, password, biography, name
         });
         res.status(201).json({
           message: "Account berhasil ditambahkan!!🟢",

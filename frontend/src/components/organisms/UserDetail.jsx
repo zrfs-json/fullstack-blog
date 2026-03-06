@@ -50,22 +50,21 @@ const UserDetail = () => {
   return (
     <div className='flex flex-col gap-3 items-center justify-center text-white h-screen'>
       <form onSubmit={handleSubmit(onSubmit)} className='flex flex-col gap-5 w-1/2'>
-
         <input 
           type="text" 
           className='border border-slate-400 rounded p-2'
           placeholder='Username'
-          {...register("username", {
+          {...register("name", {
             required: "Username Wajib Isi!!",
           })}
           />
 
-        <input 
+        <textarea
           type="text" 
           className='border border-slate-400 rounded p-2'
-          placeholder='Role'
-          {...register("role", {
-            required: "Role wajib isi"
+          placeholder='Biography'
+          {...register("biography", {
+            required: "Biography wajib isi"
           })}
           />
           

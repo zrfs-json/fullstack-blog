@@ -5,7 +5,7 @@ import { useForm } from "react-hook-form"
 import { useNavigate } from "react-router-dom"
 import axios from "axios"
 
-const Register = ({setIsLoggin, isLoggin}) => {
+const Register = (/*{setIsLoggin, isLoggin}*/) => {
   
   const {register, handleSubmit, reset, formState: { errors }} = useForm()
   const [showPassword, setShowPassword] = useState(false)
@@ -14,14 +14,15 @@ const Register = ({setIsLoggin, isLoggin}) => {
 
   const onSubmit = async (data) => {
     try{
-      console.log(data)
+      // console.log(data)
       const response = await axios.post(
         "http://localhost:3000/api/auth/register",
         data
       )
       setMessage(response.data.message)
+      // console.log(response.data)
       if (response.status == 201) {
-      setIsLoggin(!isLoggin)
+      // setIsLoggin(!isLoggin)
       navigate("/dashboard")
     }
     }catch(error){
@@ -47,17 +48,8 @@ const Register = ({setIsLoggin, isLoggin}) => {
           type="text" 
           className='border border-slate-400 rounded p-2'
           placeholder='Username'
-          {...register("username", {
+          {...register("name", {
             required: "Username Wajib Isi!!",
-          })}
-          />
-
-        <input 
-          type="text" 
-          className='border border-slate-400 rounded p-2'
-          placeholder='Role'
-          {...register("role", {
-            required: "Role wajib isi"
           })}
           />
           
@@ -71,6 +63,15 @@ const Register = ({setIsLoggin, isLoggin}) => {
               value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
               message: "Format email tidak valid"
             }
+          })}
+          />
+
+        <input 
+          type="text" 
+          className='border border-slate-400 rounded p-2 h-25'
+          placeholder='Biography'
+          {...register("biography", {
+            required: "Biography wajib isi"
           })}
           />
 

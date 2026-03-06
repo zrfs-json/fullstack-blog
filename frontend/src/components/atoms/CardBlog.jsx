@@ -15,7 +15,21 @@ function CardBlog() {
     }
   },[])
 
-  console.log(articles)
+  // const formatDate = (date) => {
+  //   return new Date(date).toLocaleDateString("en-US", {
+  //     month: "short",
+  //     day: "numeric",
+  //     year: "numeric"
+  //   })
+  // }
+
+  const formatDate = (date) => {
+    return new Date(date).toLocaleDateString("en-US", {
+      month: "short",
+      day:"numeric",
+      year:"numeric"
+    })
+  }
 
   useEffect(() => {
     // eslint-disable-next-line react-hooks/set-state-in-effect
@@ -34,7 +48,7 @@ function CardBlog() {
             </div>
             <div className="flex justify-between items-center">
               <div className="flex gap-3 items-center font-light">
-                <p className="text-base font-medium text-gray-400">{article.date}</p>
+                <p className="text-base font-medium text-gray-400">{formatDate(article.date)}</p>
                 <p className="text-base font-medium text-gray-400">{article.like}</p>
                 <HandHeart className='size-5 stroke-gray-400'/>
               </div>
