@@ -7,6 +7,7 @@ exports.getAllUsers = async (req, res) => {
     res.status(200).json(users);
   } catch (error) { 
     res.status(500).json({message: "Tidak dapat mengambil user (ERROR🛑)"})
+    res.status(500).json(error)
   }
 }
 
@@ -24,7 +25,8 @@ exports.getUserById = async (req, res) => {
     res.status(200).json(user)
   }catch(error){
     res.status(500).json({
-      message: "Kesalahan dalam server"
+      message: "Kesalahan dalam server",
+      error
     })
   }
 }
@@ -75,4 +77,4 @@ exports.deleteUser = async (req, res) => {
     console.error(error);
     res.status(500).json({message: error.message})
   }
-}
+} 

@@ -29,6 +29,7 @@ const Editor = () => {
   const [article, setArticle] = useState("");
   const [loading, setLoading] = useState(false);
   const [users, setUsers] = useState([])
+  const [category, setCategory] = useState([])
   const topRef = useRef(null);
   
   //FETCH kalau edit mode
@@ -58,8 +59,10 @@ const Editor = () => {
   const onSubmit = async (data) => {
     const payload = {
       ...data, //Duplicate data
-      userId: data.userId.value //mengubah userId, menjadi Value/isi yang di inginkan
+      userId: data.userId.value, //mengubah userId, menjadi Value/isi yang di inginkan
+      categories: data.categories?.map(cat => cat.value) || []
     } //Immutability
+    // console.log(payload)
     try{
         if (isEditMode){
         await axios.put(`http://localhost:3000/api/articles/${id}`, payload);
@@ -112,8 +115,25 @@ const Editor = () => {
     value: user.id,
     label: user.name
   }))
-
   // console.log(options)
+
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try{
+        const response = await axios.get("http://localhost:3000/api/categories");
+        setCategory(response.data)
+        // console.log(response.data)
+      }catch (error){
+        console.error(error)
+      }
+    }
+    fetchCategories();
+  },[])
+  // console.log(category)
+  const categoryOptions = category.map(gory => ({
+    value: gory.id,
+    label: gory.name
+  }))
   
   
 
@@ -160,57 +180,112 @@ const Editor = () => {
 
             {isEditMode ? 
               <p className='px-4 text-slate-50/50 mt-2 text-sm'>Author: {article.author}</p> : 
-              <Controller
-                name='userId'
-                control={control}
-                render={({ field }) => (
-                  <Select
-                    {...field}
-                    options={options}
-                    placeholder="Pilih Author"
-                    // onChange={(selected) => field.onChange(selected.defaultValues)} (DIHAPUS, karena membuat datanya ga ke kirim ke backend)
-                    components={{
-                      DropdownIndicator: () => null,
-                      IndicatorSeparator: () => null
-                    }}
-                    styles={{
-                      control: (base) => ({
-                        ...base,
-                        backgroundColor: "#0f172b",
-                        border: "none",
-                        boxShadow: "none",
-                        fontWeight: 600,
-                        paddingLeft: 5
-                      }),
+              <div className="flex">
+                <Controller
+                  name='userId'
+                  control={control}
+                  render={({ field }) => (
+                    <Select
+                      {...field}
+                      options={options}
+                      placeholder="Pilih Author"
+                      // onChange={(selected) => field.onChange(selected.defaultValues)} (DIHAPUS, karena membuat datanya ga ke kirim ke backend)
+                      components={{
+                        DropdownIndicator: () => null,
+                        IndicatorSeparator: () => null
+                      }}
+                      styles={{
+                        control: (base) => ({
+                          ...base,
+                          backgroundColor: "#0f172b",
+                          border: "none",
+                          boxShadow: "none",
+                          fontWeight: 600,
+                          paddingLeft: 5,
+                        }),
 
-                      menu: (base) => ({
-                        ...base,
-                        backgroundColor: "#0f172b"
-                      }),
+                        menu: (base) => ({
+                          ...base,
+                          backgroundColor: "#0f172b"
+                        }),
 
-                      option: (base, state) => ({
-                        ...base,
-                        backgroundColor: state.isFocused ? "#1e293b" : "#0f172b",
-                        color: "white",
-                        cursor: "pointer",
-                        fontWeight: 500,  
-                        paddingLeft: 15
-                      }),
+                        option: (base, state) => ({
+                          ...base,
+                          backgroundColor: state.isFocused ? "#1e293b" : "#0f172b",
+                          color: "white",
+                          cursor: "pointer",
+                          fontWeight: 300,  
+                          paddingLeft: 15,
+                        }),
 
-                      singleValue: (base) => ({
-                        ...base,
-                        color: "white"
-                      }),
+                        singleValue: (base) => ({
+                          ...base,
+                          color: "white"
+                        }),
 
-                      placeholder: (base) => ({
-                        ...base,
-                        color: "#f8fafc8c"
-                      })
-                    }}
-                  />
-                )}
-              />
+                        placeholder: (base) => ({
+                          ...base,
+                          color: "#f8fafc8c"
+                        })
+                      }}
+                    />
+                  )}
+                />
+                <Controller
+                  name='categories'
+                  control={control}
+                  render={({ field }) => (
+                    <Select
+                      {...field}
+                      options={categoryOptions}
+                      isMulti
+                      className="basic-multi-select"
+                      classNamePrefix="select"
+                      placeholder="Pilih Category"
+                      components={{
+                        DropdownIndicator: () => null,
+                        IndicatorSeparator: () => null
+                      }}
+                      styles={{
+                        control: (base) => ({
+                          ...base,
+                          backgroundColor: "#0f172b",
+                          border: "none",
+                          boxShadow: "none",
+                          fontWeight: 600,
+                          paddingLeft: 5
+                        }),
+
+                        menu: (base) => ({
+                          ...base,
+                          backgroundColor: "#0f172b"
+                        }),
+
+                        option: (base, state) => ({
+                          ...base,
+                          backgroundColor: state.isFocused ? "#1e293b" : "#0f172b",
+                          color: "white",
+                          cursor: "pointer",
+                          fontWeight: 300,  
+                          paddingLeft: 15
+                        }),
+
+                        singleValue: (base) => ({
+                          ...base,
+                          color: "white"
+                        }),
+
+                        placeholder: (base) => ({
+                          ...base,
+                          color: "#f8fafc8c"
+                        })
+                      }}
+                    />
+                  )}
+                />
+              </div>
             }
+            
           </div>
 
         {/* ReactQuill menggunakan Controller */}

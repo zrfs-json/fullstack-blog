@@ -10,6 +10,7 @@ import MainLayout from './Layout/MainLayout.jsx'
 import Articles from './components/organisms/Articles.jsx'
 import Article from './components/organisms/Article.jsx'
 import Editor from './components/molecules/Editor.jsx'
+import Category from './components/organisms/Category.jsx'
 
 function CheckAuthStatus({ isLoggin }){
   const navigate = useNavigate();
@@ -51,6 +52,7 @@ function App() {
           <Route path='/article/:id' element={<Article />}/>
           <Route path='/editor/' element={<Editor />}/>
           <Route path='/editor/:id' element={<Editor />}/>
+          <Route path='/kategori' element={<Category />}/>
         </Route>
       </Routes>
 

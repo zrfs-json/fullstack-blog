@@ -25,7 +25,7 @@ exports.register = async (req, res) => {
           message: "Account berhasil ditambahkan!!🟢",
           data: newAccount})
       } catch {
-        return res.status(400).json({message: "Tidak dapat memuat data (ERROR🛑)"})
+        return res.status(500).json({message: "Tidak dapat memuat data (ERROR🛑)"})
       }
   
   

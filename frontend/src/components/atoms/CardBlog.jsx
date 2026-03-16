@@ -41,31 +41,38 @@ function CardBlog() {
     {articles.map((article) => {
       return(
         <div className="flex gap-15 w-3/5 items-center border-b border-slate-50 mb-2 p-10" key={article.id}>
-          <div className="flex flex-col w-full justify-between gap-5">
-            <div className="flex flex-col gap-2">
-              <h1 className="text-2xl font-bold text-stone-200">{article.title}</h1>
-              <p className="text-lg text-stone-300">{article.subtitle}</p>
-            </div>
-            <div className="flex justify-between items-center">
-              <div className="flex gap-3 items-center font-light">
-                <p className="text-base font-medium text-gray-400">{formatDate(article.date)}</p>
-                <p className="text-base font-medium text-gray-400">{article.like}</p>
-                <HandHeart className='size-5 stroke-gray-400'/>
+            <div className="flex flex-col w-full justify-between gap-5">
+              <div className="flex flex-col gap-2">
+                <h1 className="text-2xl font-bold text-stone-200">{article.title}</h1>
+                <p className="text-lg text-stone-300">{article.subtitle}</p>
               </div>
-              <div className="flex text-gray-400 gap-4">
-                <Link to={`/article/${article.id}`}>
-                  <LinkIcon className='size-5'/>
-                </Link>
-                <Link to={`/editor/${article.id}`}>
-                  <Edit strokeWidth={2} className='size-5'/>
-                </Link>
-                <Ellipsis strokeWidth={2} className='size-5'/>
+              <div className="flex justify-between items-center">
+                <div className="flex gap-3 items-center font-light">
+                  <p className="text-base font-medium text-gray-400">{formatDate(article.date)}</p>
+                  <p className="text-base font-medium text-gray-400">{article.like}</p>
+                  <HandHeart className='size-5 stroke-gray-400'/>
+                </div>
+                <div className="flex text-gray-400 gap-4">
+                  <Link to={`/article/${article.id}`}>
+                    <LinkIcon className='size-5'/>
+                  </Link>
+                  <Link to={`/editor/${article.id}`}>
+                    <Edit strokeWidth={2} className='size-5'/>
+                  </Link>
+                  <Ellipsis strokeWidth={2} className='size-5'/>
+                </div>
+              </div>
+              <div className="flex gap-2">
+                {article.Categories.map((category) => {
+                  return(
+                    <p className='text-white text-xs  border-1 px-2 py-1 rounded-full hover:bg-slate-50 hover:text-slate-950 hover:cursor-pointer'>{category.name}</p>
+                  )
+                })}
               </div>
             </div>
-          </div>
-          <div className="h-full">
-            <img src={article.image} alt="Gambar Article" className="h-full ovject-cover rounded-xl" />
-          </div>
+            <div className="h-full">
+              <img src={article.image} alt="Gambar Article" className="h-full ovject-cover rounded-xl" />
+            </div>  
         </div>
       )
     })}

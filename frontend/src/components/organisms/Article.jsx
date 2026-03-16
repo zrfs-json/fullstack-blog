@@ -39,7 +39,7 @@ function Article() {
 
   return (
     <div ref={topRef} id='blog'>
-      <div className="flex flex-col mx-25 py-20 gap-10 px-25 min-h-screen">
+      <div className="flex flex-col mx-25 py-20 gap-5 px-25 min-h-screen">
         <div className='flex flex-col gap-2'>
           <div className="flex flex-col gap-6">
             <p className='text-3xl font-bold text-slate-50'>{article.title}</p>
@@ -57,6 +57,13 @@ function Article() {
               <Edit strokeWidth={2} className='size-4'/>
             </Link>
           </div>
+        </div>
+        <div className="flex gap-5">
+          {article.categories.map((category) => {
+            return(
+              <p className='text-white text-xs border-1 px-2 py-1 rounded-full hover:bg-slate-50 hover:text-slate-950 hover:cursor-pointer'>{category.name}</p>
+            ) 
+          })}
         </div>
         <div className="flex justify-center">
           <div className="h-px w-full bg-slate-200"></div>

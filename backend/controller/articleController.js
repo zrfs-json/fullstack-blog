@@ -3,46 +3,70 @@ const db = require('../models')
 
 exports.getArticles = async (req, res) => {
   try {
-    const articles = await db.articles.findAll();
+    const articles = await db.articles.findAll({
+      include: {
+        model: db.Category,
+        attributes: ["id", "name"],
+        through: { attributes:[] }  
+      },
+    });
     res.status(200).json(articles);
   } catch (error){
-    res.status(500).json({message: "Tidak dapat memuat Article (ERROR🛑)"})
+    // res.status(500).json({message: "Tidak dapat memuat Article (ERROR🛑)"})
+    res.status(500).json(error)
   }
 }
 
 exports.getArticleById = async (req, res) => {
-  try{
-    const id = parseInt(req.params.id)
-    
-    //const article = await db.articles.findByPk(id)
+  try {
 
-    //Memanggil Attribute tabel Lain
-    const article = await db.articles.findOne({
-      where: { id: req.params.id },
-      include: {
-        model: db.User,
-        attributes: ["name"]
-      }
+    const id = parseInt(req.params.id)
+
+    const article = await db.articles.findByPk (id,{
+     include:[
+        {
+          model: db.User,
+          attributes: ["name"]
+        },{
+         model: db.Category,
+          attributes: ["id", "name"],
+          through: { attributes:[] }  
+        }
+       
+      ]
     })
+
+    // console.log(article)
 
     if(!article){
       return res.status(404).json({
         message: "Article tidak ditemukan!!"
       })
     }
-    
-    const result ={
+
+    console.log(article)
+
+    const result = { 
       id: article.id,
       title: article.title,
       subtitle: article.subtitle,
       content: article.content,
       like: article.like,
       date: article.date,
-      author: article.User.name
+      author: article.User?.name || null,
+      categories: article.Categories?.map(c => ({
+        id: c.id,
+        name: c.name
+      })) || []
     }
-    
+
     res.status(200).json(result)
-  }catch(error){
+    // console.log(result)
+
+  } catch(error){
+
+    console.error(error)
+
     res.status(500).json({
       message: "Kesalahan internal (Server)"
     })
@@ -51,7 +75,10 @@ exports.getArticleById = async (req, res) => {
 
 exports.createNewArticle = async (req, res) => {
   try{
-    const { title, subtitle, content, userId } = req.body;
+    const { title, subtitle, content, userId, categories } = req.body;
+    console.log(req.body)
+    console.log("categories:", categories)
+  console.log(typeof categories)
 
     //Memastikan tidak ada konten yang dikirim kosong
     if (!title || !subtitle || !content){
@@ -72,8 +99,16 @@ exports.createNewArticle = async (req, res) => {
       content,
       image: imageUrl,
       userId,
-
+      // categories
     });
+
+    //insert pivot table Many-to-Many Relationship
+    const categoryRelations = categories.map(category_id => ({
+      article_id: newArticle.id, //kesalahan, articlenya nge-refer kemana? pastikan ke Variable yang dibuat untuk article baru
+      category_id: category_id
+    }))
+
+    await db.ArticleCategory.bulkCreate(categoryRelations)
 
     res.status(200).json({
       message: "Article created",
