@@ -53,6 +53,7 @@ function App() {
           <Route path='/editor/' element={<Editor />}/>
           <Route path='/editor/:id' element={<Editor />}/>
           <Route path='/kategori' element={<Category />}/>
+          <Route path='/kategori/:id' element={<Category />}/>
         </Route>
       </Routes>
 

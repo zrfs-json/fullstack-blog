@@ -66,7 +66,7 @@ exports.editCategory = async (req, res) => {
     c.name = name
     await c.save()
 
-    res.status(200).json({
+    res.status(201).json({
       message: "Category behrasil ditambahkan",
       data:c
     })

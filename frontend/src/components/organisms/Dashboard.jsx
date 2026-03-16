@@ -142,7 +142,7 @@ const Dashboard = ({isLoggin}) => {
                       <button className="bg-red-400 rounded-lg p-2" onClick={()=>deleteCategory(c.id)} >
                         <Trash2 className="hover:cursor-pointer hover:stroke-slate-500 size-4"/>
                       </button>
-                      <Link className="bg-green-400 rounded-lg p-2" /*to={`/kategori/${c.id}`}*/ >
+                      <Link className="bg-green-400 rounded-lg p-2" to={`/kategori/${c.id}`} >
                         <Edit className="hover:cursor-pointer hover:stroke-slate-500 size-4"/>
                       </Link>
                   </div>

@@ -1,24 +1,60 @@
 import { useForm } from 'react-hook-form'
 import axios from 'axios'
-import { useNavigate } from 'react-router-dom'
-import { useState } from 'react'
+import { useNavigate, useParams } from 'react-router-dom'
+import { useEffect, useState } from 'react'
 
 const Category = () => {
 
+  const { id } = useParams();//Cek apakah ada ID atau tidak
+  const isEditmode = Boolean(id);
   const {register, handleSubmit, reset} = useForm()
   const [message, setMessage] = useState("")
+  const [category, setCategory] = useState(null)
   const navigate = useNavigate()
+
+  //FETCH kalau edit mode
+  useEffect(() => {
+    if(!isEditmode) return;
+
+    const fetchCategory = async () => {
+      try{
+        const res = axios.get(`http://localhost:3000/api/categories/${id}`)
+        setCategory(res.data);
+      }catch(error){
+        console.error(error)
+      }
+    };
+
+    fetchCategory();  
+  }, [id, isEditmode])
+
+  //otomatis masukin value
+  useEffect(() => {
+  if(category){
+    reset({
+      name: category.name
+    })
+  }
+}, [category, reset])
 
   const onSubmit = async (data) => {
     try{
-      const response = await axios.post(
+      if(isEditmode){
+        await axios.put(
+          `http://localhost:3000/api/categories/${id}`, 
+          data
+        );
+        navigate("/dashboard")
+      } else {
+        const response = await axios.post(
         "http://localhost:3000/api/categories",
         data
       )
       setMessage(response.data.message)
-      if(response.status == 201){
-        navigate("/dashboard")
+      if(response.status == 201){ 
+      navigate("/dashboard")
     }
+      }
     }catch(error){
       if(error.response) {
         setMessage(error.response.data.message)
@@ -48,7 +84,7 @@ const Category = () => {
               />
 
               <button type='submit' className="py-2 px-10 rounded bg-blue-600 text-white font-bold hover:bg-blue-400">
-                Add New
+                {isEditmode ? "Update Category" : "Add New"}
               </button>
           </form>
           <p className="text-sm">{message}</p>
